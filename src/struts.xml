@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- 设置浏览器是否缓存静态内容，开发阶段应关闭，生产阶段打开，默认为打开 -->
+	<constant name="struts.serve.static.browserCache" value="false"></constant>
+	<!-- 当struts的配置文件修改后，系统是否自动重新加载该文件，默认为false，开发阶段应打开 -->
+	<constant name="struts.configuration.xml.reload" value="true"></constant>
+	<!-- 开发模式下使用，可以打印出更详细的错误信息 -->
+	<constant name="struts.devMode" value="true"></constant>
+
+	<!-- 是否开启动态方法调用 -->
+	<constant name="struts.enable.DynamicMethodInvocation" value="false" />
+	<package name="default" namespace="/" extends="struts-default">
+	</package>
+	<package name="users" namespace="/users" extends="struts-default">
+		<action name="*_*" class="action.{1}Action" method="{2}">
+			<result name="login_success">/pages/index.jsp</result>
+			<result name="login_failure">/pages/login.jsp</result>
+			<result name="logout_success">/pages/login.jsp</result>
+		</action>
+	</package>
+</struts>
