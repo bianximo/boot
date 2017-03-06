@@ -63,7 +63,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="<%=path%>/pages/index.jsp">欢迎<font
+				<a class="navbar-brand" href="<%=path%>/pages/index.jsp">欢迎用户<font
 					color="#2B6FD5">${sessionScope.loginName}</font>使用学生信息管理系统
 				</a>
 			</div>
@@ -256,21 +256,27 @@
 						</li>
 						<li><a href="/boot/pages/index.jsp"><i class="fa fa-dashboard fa-fw"></i>
 								公告</a></li>
-						<li><a href="#"><i class="fa fa-bar-chart-o fa-fw"></i>
+						<li><a href="#"><i class="fa fa-gears fa-fw"></i>
 								学生信息管理<span class="fa arrow"></span></a>
+								
 							<ul class="nav nav-second-level">
 								<li><a href="flot.jsp">增加学生信息</a></li>
 								<li><a href="morris.jsp">修改学生信息</a></li>
 								<li><a href="morris.jsp">删除学生信息</a></li>
-							</ul> <!-- /.nav-second-level --></li>
-						<li><a href="tables.jsp"><i class="fa fa-table fa-fw"></i>
+							</ul> 
+							<!-- /.nav-second-level -->
+						</li>
+						
+						<li><a href="<%=path%>/students/Students_query.action"><i class="fa fa-table fa-fw"></i>
 								查询学生信息</a></li>
 						<!-- <li><a href="forms.jsp"><i class="fa fa-edit fa-fw"></i>
 								Forms</a></li> -->
 						<li><a href="#"><i class="fa fa-wrench fa-fw"></i>用户设置</a>
 							
 							
-							<!-- <ul class="nav nav-second-level">
+							<!-- 
+							<ul class="nav nav-second-level">
+							
 								<li><a href="panels-wells.jsp">Panels and Wells</a></li>
 								<li><a href="buttons.jsp">Buttons</a></li>
 								<li><a href="notifications.jsp">Notifications</a></li>
@@ -389,11 +395,11 @@
 				</div> -->
 				
 				<div class="col-lg-3 col-md-6">
-					<div class="panel panel-red">
+					<div class="panel panel-yellow">
 						<div class="panel-heading">
 							<div class="row">
 								<div class="col-xs-3">
-									<i class="fa fa-support fa-5x"></i>
+									<i class="fa fa-user fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
 									<div class="huge">13</div>
@@ -433,54 +439,7 @@
 												</tr>
 											</thead>
 											<tbody>
-												<tr>
-													<td>3326</td>
-													<td>10/21/2013</td>
-													<td>3:29 PM</td>
-													<td>$321.33</td>
-												</tr>
-												<tr>
-													<td>3325</td>
-													<td>10/21/2013</td>
-													<td>3:20 PM</td>
-													<td>$234.34</td>
-												</tr>
-												<tr>
-													<td>3324</td>
-													<td>10/21/2013</td>
-													<td>3:03 PM</td>
-													<td>$724.17</td>
-												</tr>
-												<tr>
-													<td>3323</td>
-													<td>10/21/2013</td>
-													<td>3:00 PM</td>
-													<td>$23.71</td>
-												</tr>
-												<tr>
-													<td>3322</td>
-													<td>10/21/2013</td>
-													<td>2:49 PM</td>
-													<td>$8345.23</td>
-												</tr>
-												<tr>
-													<td>3321</td>
-													<td>10/21/2013</td>
-													<td>2:23 PM</td>
-													<td>$245.12</td>
-												</tr>
-												<tr>
-													<td>3320</td>
-													<td>10/21/2013</td>
-													<td>2:15 PM</td>
-													<td>$5663.54</td>
-												</tr>
-												<tr>
-													<td>3319</td>
-													<td>10/21/2013</td>
-													<td>2:13 PM</td>
-													<td>$943.45</td>
-												</tr>
+												
 											</tbody>
 										</table>
 									</div>

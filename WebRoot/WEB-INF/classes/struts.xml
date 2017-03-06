@@ -22,4 +22,9 @@
 			<result name="logout_success">/pages/login.jsp</result>
 		</action>
 	</package>
+	<package name="students" namespace="/students" extends="struts-default">
+		<action name="*_*" class="action.{1}Action" method="{2}">
+			<result name="query_success">/pages/tables.jsp</result>
+		</action>
+	</package>
 </struts>
