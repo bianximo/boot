@@ -7,7 +7,7 @@
 
 	<class name="entity.Users" table="USERS">
 		<id name="uid" type="int">
-			<generator class="native" />
+			<generator class="identity" />
 		</id>
 		<property name="username" type="java.lang.String" />
 		<property name="password" type="java.lang.String" />

@@ -18,6 +18,7 @@
 <meta name="author" content="">
 
 <title>学生信息管理系统</title>
+
 <script type="text/javascript" src="jquery.dataTables.js"></script>
 <script type="text/javascript"
 	src="../bower_components/jquery/dist/jquery.js"></script>
@@ -25,6 +26,7 @@
 <!-- Bootstrap Core CSS -->
 <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
 	rel="stylesheet">
+
 
 <!-- MetisMenu CSS -->
 <link href="../bower_components/metisMenu/dist/metisMenu.min.css"
@@ -80,7 +82,63 @@
 </head>
 
 <body>
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content col-md-10">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">请修改学生信息</h4>
+				</div>
 
+				<form action="<%=path%>/students/Students_update.action"
+					method="post">
+					<br>
+					<div class="form-group">
+						<label>学生学号：</label> <input class="form-control" name="sid"
+							id="stuid" type="text" placeholder="Disabled input" readonly>
+					</div>
+					<div class="form-group">
+						<label>学生姓名：</label> <input id="stuname" class="form-control"
+							name="sname">
+					</div>
+					<div class="form-group">
+						<label>性别：</label> <label class="radio-inline"> <input
+							type="radio" name="gender" id="stuboy" value="男" checked>
+							男
+						</label> <label class="radio-inline"> <input type="radio"
+							name="gender" id="stugirl" value="女"> 女
+						</label>
+					</div>
+					<div class="form-group">
+						<label>选择出生日期：</label>
+						<div class="input-group date form_date " data-date=""
+							data-date-format="yyyy-mm-dd" data-link-field="dtp_input2"
+							data-link-format="yyyy-mm-dd">
+							<input id="studate" name="date" class="form-control" size="16"
+								type="text" readonly> <span class="input-group-addon"><span
+								class="glyphicon glyphicon-remove"></span></span> <span
+								class="input-group-addon"><span
+								class="glyphicon glyphicon-calendar"></span></span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label>家庭住址：</label> <input id="stuaddress"
+							class="form-control col-md-2" name="address">
+					</div>
+					<br>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<input id="stumodify" type="submit" class="btn btn-primary"
+							onclick="javascript: return alert('修改成功！')" value="修改">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -261,7 +319,8 @@
 				</a>
 					<ul class="dropdown-menu dropdown-user">
 						<li><a href="#"><i class="fa fa-user fa-fw"></i>用户</a></li>
-						<li><a href="#"><i class="fa fa-gear fa-fw"></i>设置</a></li>
+						<li><a href="<%=path%>/pages/userConfig.jsp"><i
+								class="fa fa-gear fa-fw"></i>设置</a></li>
 						<li class="divider"></li>
 						<li><a href="<%=path%>/users/Users_logout.action"> <i
 								class="fa fa-sign-out fa-fw"></i>退出登录
@@ -284,22 +343,34 @@
 								</span>
 							</div> <!-- /input-group -->
 						</li>
-						<li><a href="<%=path%>/pages/index.jsp"><i
+						<li><a href="/boot/pages/index.jsp"><i
 								class="fa fa-dashboard fa-fw"></i> 公告</a></li>
 						<li><a href="#"><i class="fa fa-gears fa-fw"></i> 学生信息管理<span
 								class="fa arrow"></span></a>
 
 							<ul class="nav nav-second-level">
-								<li><a href="flot.jsp">增加学生信息</a></li>
-								<li><a href="morris.jsp">修改学生信息</a></li>
-								<li><a href="morris.jsp">删除学生信息</a></li>
+								<li><a href="<%=path%>/pages/addStu.jsp"><i
+										class="fa fa-plus fa-fw"></i> 增加学生信息</a></li>
+								<li><a href="<%=path%>/students/Students_query.action"><i
+										class="fa fa-table fa-fw"></i> 查询学生信息</a></li>
+
 							</ul> <!-- /.nav-second-level --></li>
 
-						<li><a href="<%=path%>/students/Students_query.action"><i class="fa fa-table fa-fw"></i>
-								查询学生信息</a></li>
-						<!-- <li><a href="forms.jsp"><i class="fa fa-edit fa-fw"></i>
-								Forms</a></li> -->
-						<li><a href="#"><i class="fa fa-wrench fa-fw"></i>用户设置</a> <!-- 
+
+						<li><a href="#"><i class="fa fa-child fa-fw"></i> 学生成绩管理<span
+								class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="#"><i class="fa fa-pencil fa-fw"></i> 录入成绩</a></li>
+								<li><a href="#"><i class="fa fa-paw fa-fw"></i> 查询成绩</a></li>
+								<li><a href="#"><i class="fa fa-download fa-fw"></i>
+										打印成绩单</a></li>
+
+							</ul> <!-- /.nav-second-level --></li>
+
+						<li><a href="<%=path%>/messages/Messages_query.action"><i
+								class="fa fa-comments-o fa-fw"></i>消息系统</a>
+						<li><a href="<%=path%>/pages/userConfig.jsp"><i
+								class="fa fa-wrench fa-fw"></i>用户设置</a> <!-- 
 							<ul class="nav nav-second-level">
 							
 								<li><a href="panels-wells.jsp">Panels and Wells</a></li>
@@ -309,29 +380,6 @@
 								<li><a href="icons.jsp"> Icons</a></li>
 								<li><a href="grid.jsp">Grid</a></li>
 							</ul> /.nav-second-level --></li>
-
-
-						<!-- <li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
-								Multi-Level Dropdown<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="#">Second Level Item</a></li>
-								<li><a href="#">Second Level Item</a></li>
-								<li><a href="#">Third Level <span class="fa arrow"></span></a>
-									<ul class="nav nav-third-level">
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-									</ul> /.nav-third-level</li>
-							</ul> /.nav-second-level</li>
-						<li><a href="#"><i class="fa fa-files-o fa-fw"></i>
-								Sample Pages<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="blank.jsp">Blank Page</a></li>
-								<li><a href="login.jsp">Login Page</a></li>
-							</ul> /.nav-second-level</li> -->
-
-
 					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->
@@ -362,8 +410,8 @@
 											<th style='text-align: center;'>学号</th>
 											<th style='text-align: center;'>姓名</th>
 											<th style='text-align: center;'>性别</th>
-											<th style='text-align: center;'>家庭住址</th>
 											<th style='text-align: center;'>出生日期</th>
+											<th style='text-align: center;'>家庭住址</th>
 											<th style='text-align: center;'>操作</th>
 										</tr>
 									</thead>
@@ -371,15 +419,22 @@
 										<!-- 循环开始 -->
 										<s:iterator value="#session.studentsList" var="stu">
 											<tr class="odd gradeX">
-												<td style='text-align: center;'><s:property value="#stu.sid"/></td>
-												<td style='text-align: center;'><s:property value="#stu.sname"/></td>
-												<td style='text-align: center;'><s:property value="#stu.gender"/></td>
-												<td style='text-align: center;'><s:date name="#stu.date" format="yyyy年MM月dd日"/></td>
-												<td style='text-align: center;'><s:property value="#stu.address"/></td>
-												<td style='text-align: center;'>
-													<a href="#">修改</a>
-													<a href="#">删除</a>
-												</td>
+												<td style='text-align: center;'><s:property
+														value="#stu.sid" /></td>
+												<td style='text-align: center;'><s:property
+														value="#stu.sname" /></td>
+												<td style='text-align: center;'><s:property
+														value="#stu.gender" /></td>
+												<td style='text-align: center;'><s:date
+														name="#stu.date" format="yyyy-MM-dd" /></td>
+												<td style='text-align: center;'><s:property
+														value="#stu.address" /></td>
+												<td style='text-align: center;'><a data-toggle="modal"
+													id="<s:property
+														value="#stu.sid" />"
+													data-target="#myModal" onclick="editInfo(this)">修改</a> <a
+													href="<%=path%>/students/Students_delete.action?sid=<s:property value="#stu.sid"/>"
+													onclick="javascript: return confirm('真的要删除该学生吗？')">删除</a></td>
 											</tr>
 										</s:iterator>
 										<!-- 循环结束 -->
@@ -395,287 +450,8 @@
 				<!-- /.col-lg-12 -->
 			</div>
 			<!-- /.row -->
-			
-			<!-- 
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Kitchen Sink</div>
-						/.panel-heading
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table table-striped table-bordered table-hover">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Username</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>1</td>
-											<td>Mark</td>
-											<td>Otto</td>
-											<td>@mdo</td>
-										</tr>
-										<tr>
-											<td>2</td>
-											<td>Jacob</td>
-											<td>Thornton</td>
-											<td>@fat</td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>Larry</td>
-											<td>the Bird</td>
-											<td>@twitter</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							/.table-responsive
-						</div>
-						/.panel-body
-					</div>
-					/.panel
-				</div>
-				/.col-lg-6
-				<div class="col-lg-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Basic Table</div>
-						/.panel-heading
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Username</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>1</td>
-											<td>Mark</td>
-											<td>Otto</td>
-											<td>@mdo</td>
-										</tr>
-										<tr>
-											<td>2</td>
-											<td>Jacob</td>
-											<td>Thornton</td>
-											<td>@fat</td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>Larry</td>
-											<td>the Bird</td>
-											<td>@twitter</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							/.table-responsive
-						</div>
-						/.panel-body
-					</div>
-					/.panel
-				</div>
-				/.col-lg-6
-			</div>
-			/.row
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Striped Rows</div>
-						/.panel-heading
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table table-striped">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Username</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>1</td>
-											<td>Mark</td>
-											<td>Otto</td>
-											<td>@mdo</td>
-										</tr>
-										<tr>
-											<td>2</td>
-											<td>Jacob</td>
-											<td>Thornton</td>
-											<td>@fat</td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>Larry</td>
-											<td>the Bird</td>
-											<td>@twitter</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							/.table-responsive
-						</div>
-						/.panel-body
-					</div>
-					/.panel
-				</div>
-				/.col-lg-6
-				<div class="col-lg-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Bordered Table</div>
-						/.panel-heading
-						<div class="panel-body">
-							<div class="table-responsive table-bordered">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Username</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>1</td>
-											<td>Mark</td>
-											<td>Otto</td>
-											<td>@mdo</td>
-										</tr>
-										<tr>
-											<td>2</td>
-											<td>Jacob</td>
-											<td>Thornton</td>
-											<td>@fat</td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>Larry</td>
-											<td>the Bird</td>
-											<td>@twitter</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							/.table-responsive
-						</div>
-						/.panel-body
-					</div>
-					/.panel
-				</div>
-				/.col-lg-6
-			</div>
-			/.row
-			<div class="row">
-				<div class="col-lg-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Hover Rows</div>
-						/.panel-heading
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table table-hover">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Username</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>1</td>
-											<td>Mark</td>
-											<td>Otto</td>
-											<td>@mdo</td>
-										</tr>
-										<tr>
-											<td>2</td>
-											<td>Jacob</td>
-											<td>Thornton</td>
-											<td>@fat</td>
-										</tr>
-										<tr>
-											<td>3</td>
-											<td>Larry</td>
-											<td>the Bird</td>
-											<td>@twitter</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							/.table-responsive
-						</div>
-						/.panel-body
-					</div>
-					/.panel
-				</div>
-				/.col-lg-6
-				<div class="col-lg-6">
-					<div class="panel panel-default">
-						<div class="panel-heading">Context Classes</div>
-						/.panel-heading
-						<div class="panel-body">
-							<div class="table-responsive">
-								<table class="table">
-									<thead>
-										<tr>
-											<th>#</th>
-											<th>First Name</th>
-											<th>Last Name</th>
-											<th>Username</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr class="success">
-											<td>1</td>
-											<td>Mark</td>
-											<td>Otto</td>
-											<td>@mdo</td>
-										</tr>
-										<tr class="info">
-											<td>2</td>
-											<td>Jacob</td>
-											<td>Thornton</td>
-											<td>@fat</td>
-										</tr>
-										<tr class="warning">
-											<td>3</td>
-											<td>Larry</td>
-											<td>the Bird</td>
-											<td>@twitter</td>
-										</tr>
-										<tr class="danger">
-											<td>4</td>
-											<td>John</td>
-											<td>Smith</td>
-											<td>@jsmith</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-							/.table-responsive
-						</div>
-						/.panel-body
-					</div>
-					/.panel
-				</div>
-				/.col-lg-6
-			</div>
-			/.row -->
+
+
 		</div>
 		<!-- /#page-wrapper -->
 
@@ -699,14 +475,71 @@
 
 	<!-- Custom Theme JavaScript -->
 	<script src="../dist/js/sb-admin-2.js"></script>
-
 	<!-- Page-Level Demo Scripts - Tables - Use for reference -->
+
 	<script>
 		$(document).ready(function() {
 			$('#dataTables-example').DataTable({
 				responsive : true
 			});
 		});
+	</script>
+	<script type="text/javascript" src="../js/bootstrap-datetimepicker.js"
+		charset="UTF-8"></script>
+	<script type="text/javascript"
+		src="../js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	<script type="text/javascript">
+		$('.form_datetime').datetimepicker({
+			//language:  'fr',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			forceParse : 0,
+			showMeridian : 1
+		});
+		$('.form_date').datetimepicker({
+			language : 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			minView : 2,
+			forceParse : 0
+		});
+		$('.form_time').datetimepicker({
+			language : 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 1,
+			minView : 0,
+			maxView : 1,
+			forceParse : 0
+		});
+	</script>
+	<script type="text/javascript">
+		function editInfo(obj) {
+			var $td = $(obj).parents('td').parents('tr').children('td');
+			var id = $td.eq(0).text();
+			var name = $td.eq(1).text();
+			var gender = $td.eq(2).text();
+			var date = $td.eq(3).text();
+			var address = $td.eq(4).text();
+			$('#stuid').val(id);
+			$('#stuname').val(name);
+			if (gender == '女') {
+				document.getElementById('stugirl').checked = true;
+			} else {
+				document.getElementById('stuboy').checked = true;
+			}
+			$('#studate').val(date);
+			$('#stuaddress').val(address);
+		//$('#stu').modal('show');
+		}
 	</script>
 
 </body>

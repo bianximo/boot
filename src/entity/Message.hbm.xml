@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+        "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="entity.Message" table="MESSAGE">
+		<id name="mid" type="int" column="mid">
+			<generator class="identity" />
+		</id>
+		<property name="isRead" type="int"></property>
+		<property name="message" type="java.lang.String" />
+		<property name="date" type="date" />
+		<property name="sendId" type="int"></property>
+		<property name="receiveId" type="int"></property>
+	</class>
+
+</hibernate-mapping>

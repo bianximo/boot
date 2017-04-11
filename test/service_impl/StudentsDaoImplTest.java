@@ -1,5 +1,6 @@
 package service_impl;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,5 +25,16 @@ public class StudentsDaoImplTest {
 		StudentsDao sDao = new StudentsDaoImpl();
 		Students students = sDao.queryStudentById("S0000001");
 		System.out.println(students);
+	}
+//	@Test
+//	public void testGetNewSid(){
+//		StudentsDaoImpl sDao = new StudentsDaoImpl();
+//		System.out.println(sDao.getNewSid());
+//	}
+	@Test 
+	public void testAddStu(){
+		Students student =  new Students("","ÀîÀÚ","ÄÐ",new Date(),"Î÷°²");
+		StudentsDaoImpl sDao = new StudentsDaoImpl();
+		System.out.println(sDao.addStudent(student));
 	}
 }

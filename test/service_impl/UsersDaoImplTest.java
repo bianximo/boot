@@ -10,7 +10,7 @@ import service.UsersDao;
 public class UsersDaoImplTest {
 	@Test
 	public void UserDaoTest(){
-		Users u = new Users(1,"张三","123");
+		Users u = new Users(1,"张三","111");
 		UsersDao userdao = new UsersDaoImpl();
 		boolean flag = userdao.userLogin(u);
 		Assert.assertEquals(true, flag);

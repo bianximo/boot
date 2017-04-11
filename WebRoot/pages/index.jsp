@@ -1,5 +1,6 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"
-	contentType="text/html; charset=utf-8"%>
+<%@page import="myutils.OnlineCounter"%>
+<%@ page language="java" import="java.util.*,entity.Message"
+	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
 <%@ page isELIgnored="false"%>
 <%
 	String path = request.getContextPath();
@@ -50,7 +51,6 @@
 </head>
 
 <body>
-
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -105,7 +105,8 @@
 									elit. Pellentesque eleifend...</div>
 						</a></li>
 						<li class="divider"></li>
-						<li><a class="text-center" href="#"> <strong>所有信息</strong> <i class="fa fa-angle-right"></i>
+						<li><a class="text-center" href="#"> <strong>所有信息</strong>
+								<i class="fa fa-angle-right"></i>
 						</a></li>
 					</ul> <!-- /.dropdown-messages --></li>
 				<!-- /.dropdown -->
@@ -174,7 +175,8 @@
 								</div>
 						</a></li>
 						<li class="divider"></li>
-						<li><a class="text-center" href="#"> <strong>所有事务</strong> <i class="fa fa-angle-right"></i>
+						<li><a class="text-center" href="#"> <strong>所有事务</strong>
+								<i class="fa fa-angle-right"></i>
 						</a></li>
 					</ul> <!-- /.dropdown-tasks --></li>
 				<!-- /.dropdown -->
@@ -218,7 +220,8 @@
 								</div>
 						</a></li>
 						<li class="divider"></li>
-						<li><a class="text-center" href="#"> <strong>所有系统消息</strong> <i class="fa fa-angle-right"></i>
+						<li><a class="text-center" href="#"> <strong>所有系统消息</strong>
+								<i class="fa fa-angle-right"></i>
 						</a></li>
 					</ul> <!-- /.dropdown-alerts --></li>
 				<!-- /.dropdown -->
@@ -228,14 +231,12 @@
 				</a>
 					<ul class="dropdown-menu dropdown-user">
 						<li><a href="#"><i class="fa fa-user fa-fw"></i>用户</a></li>
-						<li><a href="#"><i class="fa fa-gear fa-fw"></i>设置</a>
-						</li>
+						<li><a href="<%=path%>/pages/userConfig.jsp"><i
+								class="fa fa-gear fa-fw"></i>设置</a></li>
 						<li class="divider"></li>
-						<li>	
-							<a href="<%=path%>/users/Users_logout.action">
-								<i class="fa fa-sign-out fa-fw"></i>退出登录
-							</a>
-						</li>
+						<li><a href="<%=path%>/users/Users_logout.action"> <i
+								class="fa fa-sign-out fa-fw"></i>退出登录
+						</a></li>
 					</ul> <!-- /.dropdown-user --></li>
 				<!-- /.dropdown -->
 			</ul>
@@ -254,27 +255,34 @@
 								</span>
 							</div> <!-- /input-group -->
 						</li>
-						<li><a href="/boot/pages/index.jsp"><i class="fa fa-dashboard fa-fw"></i>
-								公告</a></li>
-						<li><a href="#"><i class="fa fa-gears fa-fw"></i>
-								学生信息管理<span class="fa arrow"></span></a>
-								
+						<li><a href="/boot/pages/index.jsp"><i
+								class="fa fa-dashboard fa-fw"></i> 公告</a></li>
+						<li><a href="#"><i class="fa fa-gears fa-fw"></i> 学生信息管理<span
+								class="fa arrow"></span></a>
+
 							<ul class="nav nav-second-level">
-								<li><a href="flot.jsp">增加学生信息</a></li>
-								<li><a href="morris.jsp">修改学生信息</a></li>
-								<li><a href="morris.jsp">删除学生信息</a></li>
-							</ul> 
-							<!-- /.nav-second-level -->
-						</li>
-						
-						<li><a href="<%=path%>/students/Students_query.action"><i class="fa fa-table fa-fw"></i>
-								查询学生信息</a></li>
-						<!-- <li><a href="forms.jsp"><i class="fa fa-edit fa-fw"></i>
-								Forms</a></li> -->
-						<li><a href="#"><i class="fa fa-wrench fa-fw"></i>用户设置</a>
-							
-							
-							<!-- 
+								<li><a href="<%=path%>/pages/addStu.jsp"><i
+										class="fa fa-plus fa-fw"></i> 增加学生信息</a></li>
+								<li><a href="<%=path%>/students/Students_query.action"><i
+										class="fa fa-table fa-fw"></i> 查询学生信息</a></li>
+
+							</ul> <!-- /.nav-second-level --></li>
+
+
+						<li><a href="#"><i class="fa fa-child fa-fw"></i> 学生成绩管理<span
+								class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="#"><i class="fa fa-pencil fa-fw"></i> 录入成绩</a></li>
+								<li><a href="#"><i class="fa fa-paw fa-fw"></i> 查询成绩</a></li>
+								<li><a href="#"><i class="fa fa-download fa-fw"></i>
+										打印成绩单</a></li>
+
+							</ul> <!-- /.nav-second-level --></li>
+
+						<li><a href="<%=path%>/messages/Messages_query.action"><i
+								class="fa fa-comments-o fa-fw"></i>消息系统</a>
+						<li><a href="<%=path%>/pages/userConfig.jsp"><i
+								class="fa fa-wrench fa-fw"></i>用户设置</a> <!-- 
 							<ul class="nav nav-second-level">
 							
 								<li><a href="panels-wells.jsp">Panels and Wells</a></li>
@@ -283,33 +291,10 @@
 								<li><a href="typography.jsp">Typography</a></li>
 								<li><a href="icons.jsp"> Icons</a></li>
 								<li><a href="grid.jsp">Grid</a></li>
-							</ul> /.nav-second-level -->
-							
-							
-						</li>
-						
-						
-						<!-- <li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
-								Multi-Level Dropdown<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="#">Second Level Item</a></li>
-								<li><a href="#">Second Level Item</a></li>
-								<li><a href="#">Third Level <span class="fa arrow"></span></a>
-									<ul class="nav nav-third-level">
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-									</ul> /.nav-third-level</li>
-							</ul> /.nav-second-level</li>
-						<li><a href="#"><i class="fa fa-files-o fa-fw"></i>
-								Sample Pages<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="blank.jsp">Blank Page</a></li>
-								<li><a href="login.jsp">Login Page</a></li>
-							</ul> /.nav-second-level</li> -->
-							
-							
+							</ul> /.nav-second-level --></li>
+
+
+
 					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->
@@ -334,15 +319,15 @@
 									<i class="fa fa-comments fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">26</div>
-									<div>新消息</div>
+									<div class="huge">${session.noreadMessage}</div>
+									<div>未读消息</div>
 								</div>
 							</div>
 						</div>
-						<a href="#">
+						<a href="<%=path%>/messages/Messages_query.action">
 							<div class="panel-footer">
-								<span class="pull-left">查看</span> <span
-									class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+								<span class="pull-left">查看</span> <span class="pull-right"><i
+									class="fa fa-arrow-circle-right"></i></span>
 								<div class="clearfix"></div>
 							</div>
 						</a>
@@ -356,21 +341,21 @@
 									<i class="fa fa-tasks fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">12</div>
+									<div class="huge">${applicationScope.stuNum}</div>
 									<div>学生数量</div>
 								</div>
 							</div>
 						</div>
-						<a href="#">
+						<a href="<%=path%>/students/Students_query.action">
 							<div class="panel-footer">
-								<span class="pull-left">查询</span> <span
-									class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+								<span class="pull-left">查询</span> <span class="pull-right"><i
+									class="fa fa-arrow-circle-right"></i></span>
 								<div class="clearfix"></div>
 							</div>
 						</a>
 					</div>
 				</div>
-				
+
 				<!-- <div class="col-lg-3 col-md-6">
 					<div class="panel panel-yellow">
 						<div class="panel-heading">
@@ -393,7 +378,7 @@
 						</a>
 					</div>
 				</div> -->
-				
+
 				<div class="col-lg-3 col-md-6">
 					<div class="panel panel-yellow">
 						<div class="panel-heading">
@@ -402,15 +387,15 @@
 									<i class="fa fa-user fa-5x"></i>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">13</div>
+									<div class="huge">${applicationScope.numSessions}</div>
 									<div>当前在线用户数</div>
 								</div>
 							</div>
 						</div>
-						<a href="#">
+						<a href="<%=path%>/pages/userConfig.jsp">
 							<div class="panel-footer">
-								<span class="pull-left">用户</span> <span
-									class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+								<span class="pull-left">用户</span> <span class="pull-right"><i
+									class="fa fa-arrow-circle-right"></i></span>
 								<div class="clearfix"></div>
 							</div>
 						</a>
@@ -418,173 +403,58 @@
 				</div>
 			</div>
 			<!-- /.row -->
-			
-					<div class="panel panel-default ">
-						<div class="panel-heading ">
-							<i class="fa fa-bar-chart-o fa-fw"></i>最近操作
-							
-						</div>
-						<!-- /.panel-heading -->
-						<div class="panel-body">
-							<div class="row">
-								<div class="col-lg-4">
-									<div class="table-responsive">
-										<table class="table table-bordered table-hover table-striped">
-											<thead>
-												<tr>
-													<th>编号</th>
-													<th>日期</th>
-													<th>时间</th>
-													<th>操作</th>
-												</tr>
-											</thead>
-											<tbody>
-												
-											</tbody>
-										</table>
-									</div>
-									<!-- /.table-responsive -->
+
+			<div class="row clearfix">
+				<div class="col-md-9 ">
+					<div class="carousel slide" id="carousel-643475">
+						<ol class="carousel-indicators">
+							<li class="active" data-slide-to="0"
+								data-target="#carousel-643475"></li>
+							<li data-slide-to="1" data-target="#carousel-643475"></li>
+							<li data-slide-to="2" data-target="#carousel-643475"></li>
+						</ol>
+						<div class="carousel-inner">
+							<div class="item active">
+								<img alt="" src="../img/default.jpg" />
+								<div class="carousel-caption">
+									<h4>Bootstrap</h4>
+									<p>Bootstrap，来自 Twitter，是目前很受欢迎的前端框架。Bootstrap 是基于
+										HTML、CSS、JAVASCRIPT 的，它简洁灵活，使得 Web 开发更加快捷。</p>
 								</div>
-								<!-- /.col-lg-4 (nested) -->
-								<div class="col-lg-8">
-									<div id="morris-bar-chart"></div>
+							</div>
+							<div class="item">
+								<img alt="" src="../img/default1.jpg" />
+								<div class="carousel-caption">
+									<h4>Hibernate</h4>
+									<p>Hibernate是一个开放源代码的对象关系映射框架，它对JDBC进行了非常轻量级的对象封装，
+										它将POJO与数据库表建立映射关系，是一个全自动的orm框架。</p>
 								</div>
-								<!-- /.col-lg-8 (nested) -->
 							</div>
-							<!-- /.row -->
-						</div>
-						<!-- /.panel-body -->
-					</div>
-					<!-- /.panel -->
-					<!-- <div class="panel panel-default">
-						<div class="panel-heading">
-							<i class="fa fa-bar-chart-o fa-fw"></i> Donut Chart Example
-						</div>
-						<div class="panel-body">
-							<div id="morris-donut-chart"></div>
-							<a href="#" class="btn btn-default btn-block">View Details</a>
-						</div>
-						/.panel-body
-					</div>
-					/.panel
-					 -->
-					<!-- <div class="chat-panel panel panel-default">
-						<div class="panel-heading">
-							<i class="fa fa-comments fa-fw"></i> Chat
-							<div class="btn-group pull-right">
-								<button type="button"
-									class="btn btn-default btn-xs dropdown-toggle"
-									data-toggle="dropdown">
-									<i class="fa fa-chevron-down"></i>
-								</button>
-								<ul class="dropdown-menu slidedown">
-									<li><a href="#"> <i class="fa fa-refresh fa-fw"></i>
-											Refresh
-									</a></li>
-									<li><a href="#"> <i class="fa fa-check-circle fa-fw"></i>
-											Available
-									</a></li>
-									<li><a href="#"> <i class="fa fa-times fa-fw"></i>
-											Busy
-									</a></li>
-									<li><a href="#"> <i class="fa fa-clock-o fa-fw"></i>
-											Away
-									</a></li>
-									<li class="divider"></li>
-									<li><a href="#"> <i class="fa fa-sign-out fa-fw"></i>
-											Sign Out
-									</a></li>
-								</ul>
+							<div class="item">
+								<img alt="" src="../img/default2.jpg" />
+								<div class="carousel-caption">
+									<h4>Struts2</h4>
+									<p>Struts2是一个基于MVC设计模式的Web应用框架，它本质上相当于一个servlet，在MVC设计模式中，Struts2作为控制器(Controller)来建立模型与视图的数据交互。Struts
+										2是 Struts的下一代产品，是在 struts 1和WebWork的技术基础上进行了合并的全新的Struts 2框架。</p>
+								</div>
 							</div>
 						</div>
-						/.panel-heading
-						<div class="panel-body">
-							<ul class="chat">
-								<li class="left clearfix"><span class="chat-img pull-left">
-										<img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar"
-										class="img-circle" />
-								</span>
-									<div class="chat-body clearfix">
-										<div class="header">
-											<strong class="primary-font">Jack Sparrow</strong> <small
-												class="pull-right text-muted"> <i
-												class="fa fa-clock-o fa-fw"></i> 12 mins ago
-											</small>
-										</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-											elit. Curabitur bibendum ornare dolor, quis ullamcorper
-											ligula sodales.</p>
-									</div></li>
-								<li class="right clearfix"><span
-									class="chat-img pull-right"> <img
-										src="http://placehold.it/50/FA6F57/fff" alt="User Avatar"
-										class="img-circle" />
-								</span>
-									<div class="chat-body clearfix">
-										<div class="header">
-											<small class=" text-muted"> <i
-												class="fa fa-clock-o fa-fw"></i> 13 mins ago
-											</small> <strong class="pull-right primary-font">Bhaumik
-												Patel</strong>
-										</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-											elit. Curabitur bibendum ornare dolor, quis ullamcorper
-											ligula sodales.</p>
-									</div></li>
-								<li class="left clearfix"><span class="chat-img pull-left">
-										<img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar"
-										class="img-circle" />
-								</span>
-									<div class="chat-body clearfix">
-										<div class="header">
-											<strong class="primary-font">Jack Sparrow</strong> <small
-												class="pull-right text-muted"> <i
-												class="fa fa-clock-o fa-fw"></i> 14 mins ago
-											</small>
-										</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-											elit. Curabitur bibendum ornare dolor, quis ullamcorper
-											ligula sodales.</p>
-									</div></li>
-								<li class="right clearfix"><span
-									class="chat-img pull-right"> <img
-										src="http://placehold.it/50/FA6F57/fff" alt="User Avatar"
-										class="img-circle" />
-								</span>
-									<div class="chat-body clearfix">
-										<div class="header">
-											<small class=" text-muted"> <i
-												class="fa fa-clock-o fa-fw"></i> 15 mins ago
-											</small> <strong class="pull-right primary-font">Bhaumik
-												Patel</strong>
-										</div>
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing
-											elit. Curabitur bibendum ornare dolor, quis ullamcorper
-											ligula sodales.</p>
-									</div></li>
-							</ul>
-						</div>
-						/.panel-body
-						<div class="panel-footer">
-							<div class="input-group">
-								<input id="btn-input" type="text" class="form-control input-sm"
-									placeholder="Type your message here..." /> <span
-									class="input-group-btn">
-									<button class="btn btn-warning btn-sm" id="btn-chat">
-										Send</button>
-								</span>
-							</div>
-						</div>
-						/.panel-footer
+						<a class="left carousel-control" href="#carousel-643475"
+							data-slide="prev"><span
+							class="glyphicon glyphicon-chevron-left"></span></a> <a
+							class="right carousel-control" href="#carousel-643475"
+							data-slide="next"><span
+							class="glyphicon glyphicon-chevron-right"></span></a>
 					</div>
-					/.panel .chat-panel
-				 -->
 				</div>
-				<!-- /.col-lg-4 -->
 			</div>
-			<!-- /.row -->
+
 		</div>
-		<!-- /#page-wrapper -->
+		<!-- /.col-lg-4 -->
+	</div>
+	<!-- /.row -->
+	</div>
+	<!-- /#page-wrapper -->
 
 	</div>
 	<!-- /#wrapper -->
