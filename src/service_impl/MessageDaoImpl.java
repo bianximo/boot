@@ -33,14 +33,14 @@ public class MessageDaoImpl implements MessageDao {
 	}
 
 	@Override
-	public List<Message> querySendMessage(int sendId) {
+	public List<Message> querySendMessage(String sendName) {
 		Transaction transaction = null;
-		String hql = "from Message where sendId = ?";
+		String hql = "from Message where sendName = ?";
 		try {
 			Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
 			Query<Message> query = session.createQuery(hql);
-			query.setParameter(0, sendId);
+			query.setParameter(0, sendName);
 			List<Message> list = query.getResultList();
 			transaction.commit();
 			return list;
@@ -55,14 +55,14 @@ public class MessageDaoImpl implements MessageDao {
 	}
 
 	@Override
-	public List<Message> queryReceiveMessage(int receiveId) {
+	public List<Message> queryReceiveMessage(String receiveName) {
 		Transaction transaction = null;
-		String hql = "from Message where receiveId = ?";
+		String hql = "from Message where receiveName = ?";
 		try {
 			Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
 			transaction = session.beginTransaction();
 			Query<Message> query = session.createQuery(hql);
-			query.setParameter(0, receiveId);
+			query.setParameter(0, receiveName);
 			List<Message> list = new ArrayList<>();
 			list = query.getResultList();
 			transaction.commit();
@@ -98,7 +98,7 @@ public class MessageDaoImpl implements MessageDao {
 	}
 
 	@Override
-	public Message querySingleMessage(int mid) {
+	public boolean  readMessage(int mid) {
 		Transaction transaction = null;
 		try {
 			Session session = HibernateSessionFactory.getSessionFactory().getCurrentSession();
@@ -107,10 +107,11 @@ public class MessageDaoImpl implements MessageDao {
 			message.setIsRead(1);
 			session.save(message);
 			transaction.commit();
-			return message;
+			return true;
 		} catch (Exception e) {
+			transaction.commit();
 			e.printStackTrace();
-			return null;
+			return false;
 		} finally {
 			if (transaction != null)
 				transaction = null;

@@ -1,14 +1,10 @@
-<%@page import="myutils.OnlineCounter"%>
-<%@ page language="java" import="java.util.*,entity.Message"
-	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.util.*" pageEncoding="utf-8"
+	contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="s" uri="/struts-tags"%>
-<%@ page isELIgnored="false"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
-	List<Message> receiveList = (ArrayList) session.getAttribute("receiveList");
-	List<Message> sendList = (ArrayList) session.getAttribute("sendList");
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -21,24 +17,21 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>学生信息管理系统</title>
+<title>用户设置</title>
+
+<link href="../css/bootstrap-datetimepicker.min.css" rel="stylesheet"
+	media="screen">
 
 <!-- Bootstrap Core CSS -->
 <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css"
-	rel="stylesheet">
+	rel="stylesheet" media="screen">
 
 <!-- MetisMenu CSS -->
 <link href="../bower_components/metisMenu/dist/metisMenu.min.css"
 	rel="stylesheet">
 
-<!-- Timeline CSS -->
-<link href="../dist/css/timeline.css" rel="stylesheet">
-
 <!-- Custom CSS -->
 <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
-
-<!-- Morris Charts CSS -->
-<link href="../bower_components/morrisjs/morris.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link href="../bower_components/font-awesome/css/font-awesome.min.css"
@@ -54,40 +47,6 @@
 </head>
 
 <body>
-
-	<div class="modal fade" id="sendMessage" tabindex="-1" role="dialog"
-		aria-labelledby="myModalLabel">
-		<div class="modal-dialog" role="document">
-			<div class="modal-content col-md-10">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal"
-						aria-label="Close">
-						<span aria-hidden="true">×</span>
-					</button>
-					<h4 class="modal-title" id="myModalLabel">发送新消息</h4>
-				</div>
-
-				<form action="<%=path%>/messages/Messages_send.action" method="post">
-					<br>
-					<div class="form-group">
-						<label>收信人：</label> <input class="form-control" name="receiveName"
-							type="text">
-					</div>
-					<div class="form-group">
-						<label>内容：</label>
-						<textarea class="form-control" name="data" rows="3"></textarea>
-					</div>
-					<br>
-					<div class="modal-footer">
-
-						<input id="sendMessageModel" type="submit" class="btn btn-primary"
-							onclick="javascript: return alert('消息发送成功！')" value="发送">
-						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
 
 	<div id="wrapper">
 
@@ -106,7 +65,6 @@
 				</a>
 			</div>
 			<!-- /.navbar-header -->
-
 			<ul class="nav navbar-top-links navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#"> <i
@@ -228,12 +186,46 @@
 										打印成绩单</a></li>
 
 							</ul> <!-- /.nav-second-level --></li>
+
 						<li><a href="<%=path%>/messages/Messages_query.action"><i
 								class="fa fa-comments-o fa-fw"></i>消息系统</a>
 						<li><a href="<%=path%>/pages/userConfig.jsp"><i
-								class="fa fa-wrench fa-fw"></i>用户设置</a></li>
+								class="fa fa-wrench fa-fw"></i>用户设置</a>
 						<li><a href="<%=path%>/pages/shermo.jsp"><i
-								class="fa fa-qq fa-fw"></i>关于我</a>
+								class="fa fa-qq fa-fw"></i>关于我</a> <!-- 
+						
+							<ul class="nav nav-second-level">
+							
+								<li><a href="panels-wells.jsp">Panels and Wells</a></li>
+								<li><a href="buttons.jsp">Buttons</a></li>
+								<li><a href="notifications.jsp">Notifications</a></li>
+								<li><a href="typography.jsp">Typography</a></li>
+								<li><a href="icons.jsp"> Icons</a></li>
+								<li><a href="grid.jsp">Grid</a></li>
+							</ul> /.nav-second-level --></li>
+
+
+						<!-- <li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
+								Multi-Level Dropdown<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="#">Second Level Item</a></li>
+								<li><a href="#">Second Level Item</a></li>
+								<li><a href="#">Third Level <span class="fa arrow"></span></a>
+									<ul class="nav nav-third-level">
+										<li><a href="#">Third Level Item</a></li>
+										<li><a href="#">Third Level Item</a></li>
+										<li><a href="#">Third Level Item</a></li>
+										<li><a href="#">Third Level Item</a></li>
+									</ul> /.nav-third-level</li>
+							</ul> /.nav-second-level</li>
+						<li><a href="#"><i class="fa fa-files-o fa-fw"></i>
+								Sample Pages<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level">
+								<li><a href="blank.jsp">Blank Page</a></li>
+								<li><a href="login.jsp">Login Page</a></li>
+							</ul> /.nav-second-level</li> -->
+
+
 					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->
@@ -241,78 +233,41 @@
 			<!-- /.navbar-static-side -->
 		</nav>
 
+		<!-- Page Content -->
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">消息系统</h1>
+					<h1 class="page-header">关于我</h1>
 				</div>
 				<!-- /.col-lg-12 -->
 			</div>
-			<div class="col-lg-5 ">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-bell fa-fw"></i>收件箱
-					</div>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-						<div class="list-group">
-							<s:iterator value="#session.receiveList" var="receive" status="L">
-								<a class="list-group-item"
-									href="<%=path%>/pages/message.jsp?index=<s:property value="#L.index"/>&read=1">
-									<s:if test="#receive.isRead==0">
-										<i class="fa fa-eye fa-fw"></i>
-									</s:if> <s:else>
-										<i class="fa fa-comment fa-fw"></i>
-									</s:else> <s:property value="#receive.getShortMessage()" /> <span
-									class="pull-right text-muted small"> <em><s:date
-												name="#receive.date" format="MM-dd hh:mm" /></em>
-								</span>
-								</a>
-							</s:iterator>
-						</div>
-						<!-- /.list-group -->
-
-					</div>
-					<!-- /.panel-body -->
-				</div>
-				<!-- /.panel -->
+			<!-- /.row -->
+			<div class="panel-body">
+				<p>本系统为java web期末作业 .</p>
+				<p>前端：bootstrap</p>
+				<p>后端：Struts2、Hibernate、Mysql</p>
+				<br>
+				<h4>联系方式</h4>
+				<address>
+					<strong>QQ：</strong> 937077885
+				</address>
+				<address>
+					<strong>邮箱：</strong> shermo@163.com
+				</address>
+				<address>
+					<strong>Github：</strong> bianximo
+				</address>
+				<address>
+					<strong>Repository：</strong><a href="https://github.com/bianximo/boot">https://github.com/bianximo/boot</a>
+				</address>
 			</div>
-			<!-- /.col-lg-5 -->
 
-			<div class="col-lg-5">
-				<div class="panel panel-default">
-					<div class="panel-heading">
-						<i class="fa fa-bell fa-fw"></i>发件箱
-					</div>
-					<!-- /.panel-heading -->
-					<div class="panel-body">
-						<div class="list-group">
-							<s:iterator value="#session.sendList" var="send" status="L">
-								<a class="list-group-item"
-									href="<%=path%>/pages/message.jsp?index=<s:property value="#L.index"/>&read=0">
-									<i class="fa fa-envelope fa-fw"></i> <s:property
-										value="#send.getShortMessage()" /><span
-									class="pull-right text-muted small"><em><s:date
-												name="#send.date" format="MM-dd hh:mm" /></em> </span>
-								</a>
-							</s:iterator>
-						</div>
-						<!-- /.list-group -->
-
-					</div>
-					<!-- /.panel-body -->
-				</div>
-				<!-- /.panel -->
-			</div>
-			<!-- /.col-lg-5 -->
-			<div class="col-lg-10">
-				<a href="<%=path%>/messages/Messages_query.action"
-					class="btn btn-primary btn-outline col-md-offset-2 col-md-2">更&nbsp;&nbsp;新</a>
-				<a data-toggle="modal" data-target="#sendMessage"
-					class="btn btn-primary btn-outline col-md-offset-4 col-md-2">发送新消息</a>
-			</div>
 		</div>
+		<!-- /#page-wrapper -->
+
 	</div>
+	<!-- /#wrapper -->
+
 	<!-- jQuery -->
 	<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
@@ -321,6 +276,47 @@
 
 	<!-- Metis Menu Plugin JavaScript -->
 	<script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="../dist/js/sb-admin-2.js"></script>
+	<script type="text/javascript" src="../js/bootstrap-datetimepicker.js"
+		charset="UTF-8"></script>
+	<script type="text/javascript"
+		src="../js/locales/bootstrap-datetimepicker.zh-CN.js" charset="UTF-8"></script>
+	<script type="text/javascript">
+		$('.form_datetime').datetimepicker({
+			//language:  'fr',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			forceParse : 0,
+			showMeridian : 1
+		});
+		$('.form_date').datetimepicker({
+			language : 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 2,
+			minView : 2,
+			forceParse : 0
+		});
+		$('.form_time').datetimepicker({
+			language : 'zh-CN',
+			weekStart : 1,
+			todayBtn : 1,
+			autoclose : 1,
+			todayHighlight : 1,
+			startView : 1,
+			minView : 0,
+			maxView : 1,
+			forceParse : 0
+		});
+	</script>
+
 </body>
 
 </html>

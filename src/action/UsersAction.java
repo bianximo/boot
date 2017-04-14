@@ -64,11 +64,11 @@ public class UsersAction extends ActionSupport implements ModelDriven<Users> {
 		if (flag) {
 			session.setAttribute("loginName", user.getUsername());
 			MessageDao messageDao = new MessageDaoImpl();
-			int uid = dao.getIdByUsername(user.getUsername());
 
 			List<Message> list = new ArrayList<Message>();
-			List<Message> receList = messageDao.queryReceiveMessage(uid);
+			List<Message> receList = messageDao.queryReceiveMessage(user.getUsername());
 			for (Message message : receList) {
+				if(message.getIsRead()==0)
 				list.add(message);
 			}
 			session.setAttribute("newMessage", list);
@@ -121,11 +121,11 @@ public class UsersAction extends ActionSupport implements ModelDriven<Users> {
 		if (flag) {
 			session.setAttribute("loginName", user.getUsername());
 			MessageDao messageDao = new MessageDaoImpl();
-			int uid = dao.getIdByUsername(user.getUsername());
 
 			List<Message> list = new ArrayList<Message>();
-			List<Message> receList = messageDao.queryReceiveMessage(uid);
+			List<Message> receList = messageDao.queryReceiveMessage(user.getUsername());
 			for (Message message : receList) {
+				if(message.getIsRead()==0)
 				list.add(message);
 			}
 			session.setAttribute("newMessage", list);

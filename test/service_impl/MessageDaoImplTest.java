@@ -9,37 +9,38 @@ import entity.Message;
 import service.MessageDao;
 
 public class MessageDaoImplTest {
-	
+
 	@Test
-	public void testSendMessage(){
+	public void testSendMessage() {
 		Message message = new Message();
-		message.setReceiveId(1);
-		message.setSendId(0);
+		message.setReceiveName("张三");
+		message.setSendName("shermo");
 		message.setDate(new Date());
 		message.setMessage("test");
 		MessageDao messageDaoTest = new MessageDaoImpl();
 		messageDaoTest.sendMessage(message);
 	}
-	
+
 	@Test
-	public void testQuerReceiveMessage(){
+	public void testQuerReceiveMessage() {
 		MessageDao messageDao = new MessageDaoImpl();
-		List<Message> list = messageDao.queryReceiveMessage(1);
+		List<Message> list = messageDao.queryReceiveMessage("张三");
 		for (Message message : list) {
 			System.out.println(message);
 		}
 	}
-	
+
 	@Test
-	public void testQuerSendMessage(){
+	public void testQuerSendMessage() {
 		MessageDao messageDao = new MessageDaoImpl();
-		List<Message> list = messageDao.querySendMessage(0);
+		List<Message> list = messageDao.querySendMessage("shermo");
 		for (Message message : list) {
 			System.out.println(message);
 		}
 	}
+
 	@Test
-	public void testDeleteMessage(){
+	public void testDeleteMessage() {
 		MessageDao messageDao = new MessageDaoImpl();
 		System.out.println(messageDao.deleteMessage(4));
 	}

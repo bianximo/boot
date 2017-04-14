@@ -11,8 +11,8 @@
 		<property name="isRead" type="int"></property>
 		<property name="message" type="java.lang.String" />
 		<property name="date" type="date" />
-		<property name="sendId" type="int"></property>
-		<property name="receiveId" type="int"></property>
+		<property name="sendName" type="java.lang.String"></property>
+		<property name="receiveName" type="java.lang.String"></property>
 	</class>
 
 </hibernate-mapping>

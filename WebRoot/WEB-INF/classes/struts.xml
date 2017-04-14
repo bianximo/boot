@@ -27,7 +27,7 @@
 		<action name="*_*" class="action.{1}Action" method="{2}">
 			<result name="send_message_success" type="chain">Messages_query</result>
 			<result name="send_message_failure" type="chain">Messages_query</result>
-			<result name="delete_message_success" type="chain">Messages_query</result>
+			<result name="read_message_success" type="chain">Messages_query</result>
 			<result name="query_message_success">/pages/chat.jsp</result>
 		</action>
 	</package>

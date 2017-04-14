@@ -26,16 +26,25 @@ public class MessagesAction extends ActionSupport {
 	private Message message = null;
 	private int messageId = 0;
 	private String data = null;
-	private int sendId = 0;
-	private int receiveId = 0;
+	private String sendName = "";
+	private String receiveName = "";
 	private Date date = null;
 
-	public int getMessageId() {
-		return messageId;
+	
+	public String getSendName() {
+		return sendName;
 	}
 
-	public void setMessageId(int messageId) {
-		this.messageId = messageId;
+	public void setSendName(String sendName) {
+		this.sendName = sendName;
+	}
+
+	public String getReceiveName() {
+		return receiveName;
+	}
+
+	public void setReceiveName(String receiveName) {
+		this.receiveName = receiveName;
 	}
 
 	public String getData() {
@@ -50,60 +59,66 @@ public class MessagesAction extends ActionSupport {
 	public String send() {
 		HttpServletRequest request = ServletActionContext.getRequest();
 		HttpSession session = request.getSession();
-		
+
 		String sendName = (String) session.getAttribute("loginName");
-		String receiveName = request.getParameter("receiveName");
 		UsersDao userdao = new UsersDaoImpl();
-		sendId = userdao.getIdByUsername(sendName);
-		receiveId = userdao.getIdByUsername(receiveName);
 		date = new Date();
-		message = new Message(sendId, receiveId, data, date);
+		message = new Message(sendName, receiveName, data, date);
 		
 		MessageDao messageDao = new MessageDaoImpl();
 		boolean flag = messageDao.sendMessage(message);
-		if(flag)return "send_message_success";
-		else return "send_message_failure";
+		if (flag)
+			return "send_message_success";
+		else
+			return "send_message_failure";
 	}
-	//删除信息
-	public String delete(){
+
+	// 删除信息
+	public String delete() {
 		MessageDao messageDao = new MessageDaoImpl();
 		messageDao.deleteMessage(messageId);
 		return "delete_message_success";
 	}
-	
-	//查询信息
+
+	// 查询信息
 	public String query() {
 		HttpSession session = ServletActionContext.getRequest().getSession();
-		
+
 		String userName = (String) session.getAttribute("loginName");
-		UsersDao userdao = new UsersDaoImpl();
-		int userid = userdao.getIdByUsername(userName);
-		
+
 		MessageDao messageDao = new MessageDaoImpl();
-		List<Message>receiveList = messageDao.queryReceiveMessage(userid);
-		List<Message>sendList = messageDao.querySendMessage(userid);
-		
+		List<Message> receiveList = messageDao.queryReceiveMessage(userName);
+		List<Message> sendList = messageDao.querySendMessage(userName);
+
 		session.setAttribute("receiveList", receiveList);
 		session.setAttribute("sendList", sendList);
-		
+
 		return "query_message_success";
 	}
-	
-	//查询所有信息
-		public String queryAll() {
-			HttpSession session = ServletActionContext.getRequest().getSession();
-			
-			String userName = (String) session.getAttribute("loginName");
-			UsersDao userdao = new UsersDaoImpl();
-			int userid = userdao.getIdByUsername(userName);
-			
-			MessageDao messageDao = new MessageDaoImpl();
-			List<Message>receiveList = messageDao.queryReceiveMessage(userid);
-			List<Message>sendList = messageDao.querySendMessage(userid);
-			
-			session.setAttribute("receiveList", receiveList);
-			session.setAttribute("sendList", sendList);
-			
-			return "query_message_success";
-		}
+
+	public String read() {
+		HttpServletRequest request = ServletActionContext.getRequest();
+		int mid = Integer.parseInt(request.getParameter("readId"));
+		MessageDao messageDao = new MessageDaoImpl();
+		messageDao.readMessage(mid);
+		return "read_message_success";
+	}
+
+//	// 查询所有信息
+//	public String queryAll() {
+//		HttpSession session = ServletActionContext.getRequest().getSession();
+//
+//		String userName = (String) session.getAttribute("loginName");
+//		UsersDao userdao = new UsersDaoImpl();
+//		int userid = userdao.getIdByUsername(userName);
+//
+//		MessageDao messageDao = new MessageDaoImpl();
+//		List<Message> receiveList = messageDao.queryReceiveMessage(userid);
+//		List<Message> sendList = messageDao.querySendMessage(userid);
+//
+//		session.setAttribute("receiveList", receiveList);
+//		session.setAttribute("sendList", sendList);
+//
+//		return "query_message_success";
+//	}
 }

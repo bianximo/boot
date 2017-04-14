@@ -1,11 +1,22 @@
+<%@page import="java.text.SimpleDateFormat"%>
 <%@page import="myutils.OnlineCounter"%>
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"
-	contentType="text/html; charset=utf-8"%>
+<%@ page language="java" import="java.util.*,entity.Message,java.lang.*"
+	pageEncoding="utf-8" contentType="text/html; charset=utf-8"%>
+<%@ taglib prefix="s" uri="/struts-tags"%>
 <%@ page isELIgnored="false"%>
 <%
 	String path = request.getContextPath();
 	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
 			+ path + "/";
+	List<Message> receiveList = (ArrayList) session.getAttribute("receiveList");
+	List<Message> sendList = (ArrayList) session.getAttribute("sendList");
+	int index = Integer.parseInt(request.getParameter("index"));
+	Message now;
+	int read = Integer.parseInt(request.getParameter("read"));
+	if (read == 1)
+		now = receiveList.get(index);
+	else
+		now = sendList.get(index);
 %>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,6 +62,40 @@
 </head>
 
 <body>
+
+	<div class="modal fade" id="sendMessage" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content col-md-10">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">×</span>
+					</button>
+					<h4 class="modal-title" id="myModalLabel">发送新消息</h4>
+				</div>
+
+				<form action="<%=path%>/messages/Messages_send.action" method="post">
+					<br>
+					<div class="form-group">
+						<label>收信人：</label> <input class="form-control" name="receiveName"
+							type="text">
+					</div>
+					<div class="form-group">
+						<label>内容：</label>
+						<textarea class="form-control" name="data" rows="3"></textarea>
+					</div>
+					<br>
+					<div class="modal-footer">
+
+						<input id="sendMessageModel" type="submit" class="btn btn-primary"
+							onclick="javascript: return alert('消息发送成功！')" value="发送">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 	<div id="wrapper">
 
 		<!-- Navigation -->
@@ -68,44 +113,28 @@
 				</a>
 			</div>
 			<!-- /.navbar-header -->
-
 			<ul class="nav navbar-top-links navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#"> <i
 						class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
 				</a>
 					<ul class="dropdown-menu dropdown-messages">
-						<li><a href="#">
-								<div>
-									<strong>John Smith</strong> <span class="pull-right text-muted">
-										<em>Yesterday</em>
-									</span>
-								</div>
-								<div>Lorem ipsum dolor sit amet, consectetur adipiscing
-									elit. Pellentesque eleifend...</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#">
-								<div>
-									<strong>John Smith</strong> <span class="pull-right text-muted">
-										<em>Yesterday</em>
-									</span>
-								</div>
-								<div>Lorem ipsum dolor sit amet, consectetur adipiscing
-									elit. Pellentesque eleifend...</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#">
-								<div>
-									<strong>John Smith</strong> <span class="pull-right text-muted">
-										<em>Yesterday</em>
-									</span>
-								</div>
-								<div>Lorem ipsum dolor sit amet, consectetur adipiscing
-									elit. Pellentesque eleifend...</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a class="text-center" href="#"> <strong>所有信息</strong>
+						<s:iterator value="#session.newMessage" var="message" status="L">
+							<li><a href="#">
+									<div>
+										<strong><s:property value="#message.sendName" /></strong> <span
+											class="pull-right text-muted"> <em><s:date
+													format="MM-dd hh:mm" name="#message.date" /></em>
+										</span>
+									</div>
+									<div>
+										<s:property value="#message.getShortMessage()" />
+									</div>
+							</a></li>
+							<li class="divider"></li>
+						</s:iterator>
+						<li><a class="text-center"
+							href="<%=path%>/messages/Messages_query.action"> <strong>所有信息</strong>
 								<i class="fa fa-angle-right"></i>
 						</a></li>
 					</ul> <!-- /.dropdown-messages --></li>
@@ -115,114 +144,41 @@
 						<i class="fa fa-caret-down"></i>
 				</a>
 					<ul class="dropdown-menu dropdown-tasks">
-						<li><a href="#">
+						<li><a href="<%=path%>/messages/Messages_query.action">
 								<div>
-									<p>
-										<strong>事务一</strong> <span class="pull-right text-muted">完成40%</span>
-									</p>
-									<div class="progress progress-striped active">
-										<div class="progress-bar progress-bar-success"
-											role="progressbar" aria-valuenow="40" aria-valuemin="0"
-											aria-valuemax="100" style="width: 40%">
-											<span class="sr-only">40% Complete (success)</span>
-										</div>
-									</div>
+									<i class="fa fa-comment fa-fw"></i>消息系统<span
+										class="pull-right text-muted small">内部邮件通讯</span>
+								</div>
+						</a></li>
+						<li class="divider"></li>
+						<li><a href="<%=path%>/students/Students_query.action">
+								<div>
+									<i class="fa fa-search fa-fw"></i>查询系统<span
+										class="pull-right text-muted small">查询所有学生</span>
+								</div>
+						</a></li>
+						<li class="divider"></li>
+						<li><a href="<%=path%>/pages/addStu.jsp">
+								<div>
+									<i class="fa fa-plus fa-fw"></i>注册系统<span
+										class="pull-right text-muted small">添加新的学生</span>
 								</div>
 						</a></li>
 						<li class="divider"></li>
 						<li><a href="#">
 								<div>
-									<p>
-										<strong>事务2</strong> <span class="pull-right text-muted">完成20%</span>
-									</p>
-									<div class="progress progress-striped active">
-										<div class="progress-bar progress-bar-info" role="progressbar"
-											aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
-											style="width: 20%">
-											<span class="sr-only">20% Complete</span>
-										</div>
-									</div>
+									<i class="fa fa-child fa-fw"></i>成绩系统<span
+										class="pull-right text-muted small">操作学生成绩</span>
 								</div>
 						</a></li>
 						<li class="divider"></li>
-						<li><a href="#">
+						<li><a href="<%=path%>/pages/userConfig.jsp">
 								<div>
-									<p>
-										<strong>事务3</strong> <span class="pull-right text-muted">完成60%</span>
-									</p>
-									<div class="progress progress-striped active">
-										<div class="progress-bar progress-bar-warning"
-											role="progressbar" aria-valuenow="60" aria-valuemin="0"
-											aria-valuemax="100" style="width: 60%">
-											<span class="sr-only">60% Complete (warning)</span>
-										</div>
-									</div>
+									<i class="fa fa-wrench fa-fw"></i>用户设置<span
+										class="pull-right text-muted small">修改你的用户信息</span>
 								</div>
 						</a></li>
-						<li class="divider"></li>
-						<li><a href="#">
-								<div>
-									<p>
-										<strong>事务4</strong> <span class="pull-right text-muted">完成80%</span>
-									</p>
-									<div class="progress progress-striped active">
-										<div class="progress-bar progress-bar-danger"
-											role="progressbar" aria-valuenow="80" aria-valuemin="0"
-											aria-valuemax="100" style="width: 80%">
-											<span class="sr-only">80% Complete (danger)</span>
-										</div>
-									</div>
-								</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a class="text-center" href="#"> <strong>所有事务</strong>
-								<i class="fa fa-angle-right"></i>
-						</a></li>
-					</ul> <!-- /.dropdown-tasks --></li>
-				<!-- /.dropdown -->
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#"> <i class="fa fa-bell fa-fw"></i>
-						<i class="fa fa-caret-down"></i>
-				</a>
-					<ul class="dropdown-menu dropdown-alerts">
-						<li><a href="#">
-								<div>
-									<i class="fa fa-comment fa-fw"></i> New Comment <span
-										class="pull-right text-muted small">4 minutes ago</span>
-								</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#">
-								<div>
-									<i class="fa fa-twitter fa-fw"></i> 3 New Followers <span
-										class="pull-right text-muted small">12 minutes ago</span>
-								</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#">
-								<div>
-									<i class="fa fa-envelope fa-fw"></i> Message Sent <span
-										class="pull-right text-muted small">4 minutes ago</span>
-								</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#">
-								<div>
-									<i class="fa fa-tasks fa-fw"></i> New Task <span
-										class="pull-right text-muted small">4 minutes ago</span>
-								</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a href="#">
-								<div>
-									<i class="fa fa-upload fa-fw"></i> Server Rebooted <span
-										class="pull-right text-muted small">4 minutes ago</span>
-								</div>
-						</a></li>
-						<li class="divider"></li>
-						<li><a class="text-center" href="#"> <strong>所有系统消息</strong>
-								<i class="fa fa-angle-right"></i>
-						</a></li>
+
 					</ul> <!-- /.dropdown-alerts --></li>
 				<!-- /.dropdown -->
 				<li class="dropdown"><a class="dropdown-toggle"
@@ -278,43 +234,12 @@
 										打印成绩单</a></li>
 
 							</ul> <!-- /.nav-second-level --></li>
-
-						<li><a href="<%=path%>/pages/chat.jsp"><i
+						<li><a href="<%=path%>/messages/Messages_query.action"><i
 								class="fa fa-comments-o fa-fw"></i>消息系统</a>
 						<li><a href="<%=path%>/pages/userConfig.jsp"><i
-								class="fa fa-wrench fa-fw"></i>用户设置</a> <!-- 
-							<ul class="nav nav-second-level">
-							
-								<li><a href="panels-wells.jsp">Panels and Wells</a></li>
-								<li><a href="buttons.jsp">Buttons</a></li>
-								<li><a href="notifications.jsp">Notifications</a></li>
-								<li><a href="typography.jsp">Typography</a></li>
-								<li><a href="icons.jsp"> Icons</a></li>
-								<li><a href="grid.jsp">Grid</a></li>
-							</ul> /.nav-second-level --></li>
-
-
-						<!-- <li><a href="#"><i class="fa fa-sitemap fa-fw"></i>
-								Multi-Level Dropdown<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="#">Second Level Item</a></li>
-								<li><a href="#">Second Level Item</a></li>
-								<li><a href="#">Third Level <span class="fa arrow"></span></a>
-									<ul class="nav nav-third-level">
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-										<li><a href="#">Third Level Item</a></li>
-									</ul> /.nav-third-level</li>
-							</ul> /.nav-second-level</li>
-						<li><a href="#"><i class="fa fa-files-o fa-fw"></i>
-								Sample Pages<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="blank.jsp">Blank Page</a></li>
-								<li><a href="login.jsp">Login Page</a></li>
-							</ul> /.nav-second-level</li> -->
-
-
+								class="fa fa-wrench fa-fw"></i>用户设置</a></li>
+						<li><a href="<%=path%>/pages/shermo.jsp"><i
+								class="fa fa-qq fa-fw"></i>关于我</a>
 					</ul>
 				</div>
 				<!-- /.sidebar-collapse -->
@@ -322,144 +247,60 @@
 			<!-- /.navbar-static-side -->
 		</nav>
 
-		<div id="page-wrapper" >
-		<div class="row">
-				<br>
+		<div id="page-wrapper">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header">详细消息</h1>
+				</div>
+				<!-- /.col-lg-12 -->
 			</div>
 			<!-- /.row -->
-			<div class="chat-panel panel panel-default col-lg-10 col-md-offset-1" >
-				<div class="panel-heading">
-					<a href="#" class="fa fa-arrow-left"></a>
-					<div class="btn-group pull-right">
-						<button type="button"
-							class="btn btn-default btn-xs dropdown-toggle"
-							data-toggle="dropdown">
-							<i class="fa fa-chevron-down"></i>
-						</button>
-						<ul class="dropdown-menu slidedown">
-							<li><a href="#"> <i class="fa fa-refresh fa-fw"></i>
-									Refresh
-							</a></li>
-							<li><a href="#"> <i class="fa fa-check-circle fa-fw"></i>
-									Available
-							</a></li>
-							<li><a href="#"> <i class="fa fa-times fa-fw"></i> Busy
-							</a></li>
-							<li><a href="#"> <i class="fa fa-clock-o fa-fw"></i>
-									Away
-							</a></li>
-							<li class="divider"></li>
-							<li><a href="#"> <i class="fa fa-sign-out fa-fw"></i>
-									Sign Out
-							</a></li>
-						</ul>
-					</div>
+			<form
+				action="<%=path%>/messages/Messages_read.action?readId=<%=now.getMid()%>"
+				method="post" class="col-lg-8">
+				<div class="form-group ">
+					<label>发信人：<%=now.getSendName()%>
 				</div>
-				<!-- /.panel-heading -->
-				<div class="panel-body">
-					<ul class="chat">
-						<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar"
-								class="img-circle" />
-						</span>
-							<div class="chat-body clearfix">
-								<div class="header">
-									<strong class="primary-font">Jack Sparrow</strong> <small
-										class="pull-right text-muted"> <i
-										class="fa fa-clock-o fa-fw"></i> 12 mins ago
-									</small>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									Curabitur bibendum ornare dolor, quis ullamcorper ligula
-									sodales.</p>
-							</div></li>
-						<li class="right clearfix"><span class="chat-img pull-right">
-								<img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar"
-								class="img-circle" />
-						</span>
-							<div class="chat-body clearfix">
-								<div class="header">
-									<small class=" text-muted"> <i
-										class="fa fa-clock-o fa-fw"></i> 13 mins ago
-									</small> <strong class="pull-right primary-font">Bhaumik Patel</strong>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									Curabitur bibendum ornare dolor, quis ullamcorper ligula
-									sodales.</p>
-							</div></li>
-						<li class="left clearfix"><span class="chat-img pull-left">
-								<img src="http://placehold.it/50/55C1E7/fff" alt="User Avatar"
-								class="img-circle" />
-						</span>
-							<div class="chat-body clearfix">
-								<div class="header">
-									<strong class="primary-font">Jack Sparrow</strong> <small
-										class="pull-right text-muted"> <i
-										class="fa fa-clock-o fa-fw"></i> 14 mins ago
-									</small>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									Curabitur bibendum ornare dolor, quis ullamcorper ligula
-									sodales.</p>
-							</div></li>
-						<li class="right clearfix"><span class="chat-img pull-right">
-								<img src="http://placehold.it/50/FA6F57/fff" alt="User Avatar"
-								class="img-circle" />
-						</span>
-							<div class="chat-body clearfix">
-								<div class="header">
-									<small class=" text-muted"> <i
-										class="fa fa-clock-o fa-fw"></i> 15 mins ago
-									</small> <strong class="pull-right primary-font">Bhaumik Patel</strong>
-								</div>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-									Curabitur bibendum ornare dolor, quis ullamcorper ligula
-									sodales.</p>
-							</div></li>
-					</ul>
+				<div class="form-group ">
+					<label>收信人：<%=now.getReceiveName()%></label>
 				</div>
-				<!-- /.panel-body -->
-				<div class="panel-footer">
-					<div class="input-group">
-						<input id="btn-input" type="text" class="form-control input-sm"
-							placeholder="Type your message here..." /> <span
-							class="input-group-btn">
-							<button class="btn btn-warning btn-sm" id="btn-chat">
-								Send</button>
-						</span>
-					</div>
+				<div class="form-group ">
+					<label>状态：<%
+						if (now.getIsRead() == 0)
+							out.print("未读");
+						else
+							out.print("已读");
+					%></label>
 				</div>
-				<!-- /.panel-footer -->
-			</div>
-			<!-- /.panel .chat-panel -->
+				<div class="form-group ">
+					<label>内容：</label>
+					<textarea class="form-control" name="data" rows="7"><%=now.getMessage()%>
+					</textarea>
+				</div>
+				<div class="form-group ">
+					<label>时间：<%=new SimpleDateFormat("MM-dd hh:mm").format(now.getDate()).toString()%></label>
+				</div>
+				<div class="modal-footer">
+					<%
+						if (read == 1) {
+							out.print("<input type='submit' class='btn btn-primary' value='标为已读'>");
+						}
+						;
+					%>
 
+					<a type="button" href="<%=path%>/messages/Messages_query.action"
+						class="btn btn-default">返回</a>
+				</div>
+			</form>
 		</div>
-		<!-- /.col-lg-4 -->
-	</div>
-	<!-- /.row -->
-	</div>
-	<!-- /#page-wrapper -->
+		<!-- jQuery -->
+		<script src="../bower_components/jquery/dist/jquery.min.js"></script>
 
-	</div>
-	<!-- /#wrapper -->
+		<!-- Bootstrap Core JavaScript -->
+		<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
 
-	<!-- jQuery -->
-	<script src="../bower_components/jquery/dist/jquery.min.js"></script>
-
-	<!-- Bootstrap Core JavaScript -->
-	<script src="../bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-
-	<!-- Metis Menu Plugin JavaScript -->
-	<script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
-
-	<!-- Morris Charts JavaScript -->
-	<script src="../bower_components/raphael/raphael-min.js"></script>
-	<script src="../bower_components/morrisjs/morris.min.js"></script>
-	<script src="../js/morris-data.js"></script>
-
-	<!-- Custom Theme JavaScript -->
-	<script src="../dist/js/sb-admin-2.js"></script>
-
+		<!-- Metis Menu Plugin JavaScript -->
+		<script src="../bower_components/metisMenu/dist/metisMenu.min.js"></script>
 </body>
 
 </html>
